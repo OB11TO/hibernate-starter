@@ -1,5 +1,6 @@
 package com.ob11to;
 
+import com.ob11to.entity.Birthday;
 import com.ob11to.entity.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Table;
@@ -22,8 +23,7 @@ class HibernateRunnerTest {
                 .username("ivan@gmail.com")
                 .firstname("Ivan")
                 .lastname("Ivanov")
-                .birthDate(LocalDate.of(2000, 12, 11))
-                .age(20)
+                .birthDate(new Birthday(LocalDate.of(2000, 12, 11)))
                 .build();
 
         String sql = "insert " +

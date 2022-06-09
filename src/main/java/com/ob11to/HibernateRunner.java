@@ -1,16 +1,17 @@
 package com.ob11to;
 
+import com.ob11to.converter.BirthdayConverter;
+import com.ob11to.entity.Birthday;
 import com.ob11to.entity.Role;
 import com.ob11to.entity.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
-import java.sql.SQLException;
 import java.time.LocalDate;
 
 public class HibernateRunner {
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) {
 //        BlockingQueue<Connection> pool = null;
 //        Connection connection = pool.take();
 //        SessionFactory
@@ -21,7 +22,7 @@ public class HibernateRunner {
 
         Configuration configuration = new Configuration();
         configuration.configure(); //Используйте сопоставления и свойства, указанные в ресурсе приложения с именем hibernate.cfg.xml
-
+        configuration.addAttributeConverter(new BirthdayConverter()); //8 custom attribute converter
 //        configuration.addAnnotatedClass(User.class); один из вариантов связать
 
         try (SessionFactory sessionFactory = configuration.buildSessionFactory()) {
@@ -29,11 +30,10 @@ public class HibernateRunner {
             session.beginTransaction();//начинаем транзакцию
 
             var user = User.builder()
-                    .username("ivan1@gmail.com")
+                    .username("ivan@gmail.com")
                     .firstname("Ivan")
                     .lastname("Ivanov")
-                    .birthDate(LocalDate.of(2000,12,11))
-                    .age(20)
+                    .birthDate(new Birthday(LocalDate.of(2000,12,11)))
                     .role(Role.ADMIN)
                     .build();
 

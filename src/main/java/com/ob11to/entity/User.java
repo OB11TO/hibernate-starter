@@ -1,11 +1,15 @@
 package com.ob11to.entity;
 
+import com.ob11to.converter.BirthdayConverter;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.Hibernate;
 
-import java.time.LocalDate;
+import java.util.Objects;
 
-@Data
+@Getter
+@Setter
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -16,10 +20,22 @@ public class User {
     private String username;
     private String firstname;
     private String lastname;
+    @Convert(converter = BirthdayConverter.class)
     @Column(name = "birth_date")
-    private LocalDate birthDate;
-    private Integer age;
+    private Birthday birthDate;
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        User user = (User) o;
+        return username != null && Objects.equals(username, user.username);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }
