@@ -1,5 +1,6 @@
 package com.ob11to;
 
+import com.ob11to.entity.Role;
 import com.ob11to.entity.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -28,15 +29,18 @@ public class HibernateRunner {
             session.beginTransaction();//начинаем транзакцию
 
             var user = User.builder()
-                    .username("ivan@gmail.com")
+                    .username("ivan1@gmail.com")
                     .firstname("Ivan")
                     .lastname("Ivanov")
                     .birthDate(LocalDate.of(2000,12,11))
                     .age(20)
+                    .role(Role.ADMIN)
                     .build();
 
             session.persist(user); // сохраняет в бд???
             session.getTransaction().commit(); //закрываем транзакцию
+
+
         }
     }
 }
