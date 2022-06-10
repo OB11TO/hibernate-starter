@@ -22,32 +22,35 @@ public class HibernateRunner {
 //        Session
 
         Configuration configuration = new Configuration();
-        configuration.configure(); //Используйте сопоставления и свойства, указанные в ресурсе приложения с именем hibernate.cfg.xml
         configuration.addAttributeConverter(new BirthdayConverter()); //8Ln custom attribute converter
         configuration.registerTypeOverride(new JsonBinaryType()); //зарегистрировали тип jsonb
 //        configuration.addAnnotatedClass(User.class); один из вариантов связать (либо mapping в cfg.xml)
+        configuration.configure(); //Используйте сопоставления и свойства, указанные в ресурсе приложения с именем hibernate.cfg.xml
 
-        try (SessionFactory sessionFactory = configuration.buildSessionFactory()) {
-            Session session = sessionFactory.openSession();
+        try (SessionFactory sessionFactory = configuration.buildSessionFactory();
+             Session session = sessionFactory.openSession()) {
             session.beginTransaction();//начинаем транзакцию
 
-            var user = User.builder()
-                    .username("ivan2@gmail.com")
-                    .firstname("Ivan")
-                    .lastname("Ivanov")
-                    .birthDate(new Birthday(LocalDate.of(2000, 12, 11)))
-                    .role(Role.ADMIN)
-                    .info("""
-                            {
-                                "name": "Ivan",
-                                "age": 25
-                            }
-                                                        
-                            """)
-                    .build();
+//            var user = User.builder()
+//                    .username("ivan@gmail.com")
+//                    .firstname("Ivan")
+//                    .lastname("Ivanov")
+//                    .birthDate(new Birthday(LocalDate.of(2000, 12, 11)))
+//                    .role(Role.USER)
+//                    .info("""
+//                            {
+//                                "name": "Ivan",
+//                                "age": 25
+//                            }
+//
+//                            """)
+//                    .build();
+//
+//            session.update(user);
+            var user = session.get(User.class, "ivan@gmail.com");
 
-            session.save(user);
             session.getTransaction().commit(); //закрываем транзакцию
+            System.out.println(user);
 
         }
     }
