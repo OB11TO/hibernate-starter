@@ -5,7 +5,7 @@ CREATE TABLE users
     lastname VARCHAR(128),
     birth_date DATE,
     role VARCHAR(128),
-    info VARCHAR(12)
+    info JSONB
 );
 
 DROP TABLE users;

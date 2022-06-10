@@ -3,6 +3,7 @@ package com.ob11to.entity;
 import com.ob11to.converter.BirthdayConverter;
 import lombok.*;
 import org.hibernate.Hibernate;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -15,6 +16,7 @@ import java.util.Objects;
 @Builder
 @Entity
 @Table(name = "users", schema = "public")
+//@TypeDef(name = "myName", typeClass = NameClass.class)
 public class User {
     @Id
     private String username;
@@ -25,6 +27,7 @@ public class User {
     private Birthday birthDate;
     @Enumerated(EnumType.STRING)
     private Role role;
+    @Type(type = "jsonb")  //у JsonBinaryType есть getName()
     private String info;
 
     @Override

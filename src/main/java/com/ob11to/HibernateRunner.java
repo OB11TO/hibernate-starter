@@ -4,6 +4,7 @@ import com.ob11to.converter.BirthdayConverter;
 import com.ob11to.entity.Birthday;
 import com.ob11to.entity.Role;
 import com.ob11to.entity.User;
+import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -23,7 +24,7 @@ public class HibernateRunner {
         Configuration configuration = new Configuration();
         configuration.configure(); //Используйте сопоставления и свойства, указанные в ресурсе приложения с именем hibernate.cfg.xml
         configuration.addAttributeConverter(new BirthdayConverter()); //8Ln custom attribute converter
-        // configuration.registerTypeOverride(new JsonBinaryType()); //зарегистрировали тип jsonb
+        configuration.registerTypeOverride(new JsonBinaryType()); //зарегистрировали тип jsonb
 //        configuration.addAnnotatedClass(User.class); один из вариантов связать (либо mapping в cfg.xml)
 
         try (SessionFactory sessionFactory = configuration.buildSessionFactory()) {
@@ -31,12 +32,18 @@ public class HibernateRunner {
             session.beginTransaction();//начинаем транзакцию
 
             var user = User.builder()
-                    .username("ivan1@gmail.com")
+                    .username("ivan2@gmail.com")
                     .firstname("Ivan")
                     .lastname("Ivanov")
                     .birthDate(new Birthday(LocalDate.of(2000, 12, 11)))
                     .role(Role.ADMIN)
-                    .info("f")
+                    .info("""
+                            {
+                                "name": "Ivan",
+                                "age": 25
+                            }
+                                                        
+                            """)
                     .build();
 
             session.save(user);
