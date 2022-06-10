@@ -2,8 +2,8 @@ package com.ob11to;
 
 import com.ob11to.entity.Birthday;
 import com.ob11to.entity.User;
-import jakarta.persistence.Column;
-import jakarta.persistence.Table;
+import javax.persistence.Column;
+import javax.persistence.Table;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Field;
@@ -33,6 +33,15 @@ class HibernateRunnerTest {
                 "values " +
                 "(%s)";
 
+        String testSql = """
+                INSERT
+                INTO
+                %s
+                (%s)
+                values
+                (%s)
+                """;
+
         var tableName = Optional.ofNullable(user.getClass().getAnnotation(Table.class))
                 .map(tableAnnotation -> tableAnnotation.schema() + "." + tableAnnotation.name())
                 .orElse(user.getClass().getName());
@@ -49,7 +58,7 @@ class HibernateRunnerTest {
                 .map(field -> "?")
                 .collect(Collectors.joining(", "));
 
-        System.out.printf((sql) + "%n", tableName, columnNames, columnValues);
+        System.out.printf((testSql) + "%n", tableName, columnNames, columnValues);
 
         Connection connection = null;
         PreparedStatement preparedStatement = connection.prepareStatement(String.format(sql, tableName, columnNames, columnValues));

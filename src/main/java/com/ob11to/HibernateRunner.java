@@ -22,24 +22,25 @@ public class HibernateRunner {
 
         Configuration configuration = new Configuration();
         configuration.configure(); //Используйте сопоставления и свойства, указанные в ресурсе приложения с именем hibernate.cfg.xml
-        configuration.addAttributeConverter(new BirthdayConverter()); //8 custom attribute converter
-//        configuration.addAnnotatedClass(User.class); один из вариантов связать
+        configuration.addAttributeConverter(new BirthdayConverter()); //8Ln custom attribute converter
+        // configuration.registerTypeOverride(new JsonBinaryType()); //зарегистрировали тип jsonb
+//        configuration.addAnnotatedClass(User.class); один из вариантов связать (либо mapping в cfg.xml)
 
         try (SessionFactory sessionFactory = configuration.buildSessionFactory()) {
             Session session = sessionFactory.openSession();
             session.beginTransaction();//начинаем транзакцию
 
             var user = User.builder()
-                    .username("ivan@gmail.com")
+                    .username("ivan1@gmail.com")
                     .firstname("Ivan")
                     .lastname("Ivanov")
-                    .birthDate(new Birthday(LocalDate.of(2000,12,11)))
+                    .birthDate(new Birthday(LocalDate.of(2000, 12, 11)))
                     .role(Role.ADMIN)
+                    .info("f")
                     .build();
 
-            session.persist(user); // сохраняет в бд???
+            session.save(user);
             session.getTransaction().commit(); //закрываем транзакцию
-
 
         }
     }

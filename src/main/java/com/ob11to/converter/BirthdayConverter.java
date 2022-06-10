@@ -1,14 +1,15 @@
 package com.ob11to.converter;
 
 import com.ob11to.entity.Birthday;
-import jakarta.persistence.AttributeConverter;
-import jakarta.persistence.Converter;
 
+
+import javax.persistence.AttributeConverter;
+import javax.persistence.Converter;
 import java.sql.Date;
 import java.util.Optional;
 
 @Converter(autoApply = true)
-public class BirthdayConverter implements AttributeConverter<Birthday, java.sql.Date> {
+public class BirthdayConverter implements AttributeConverter<Birthday, Date> {
 
     @Override
     public Date convertToDatabaseColumn(Birthday attribute) {

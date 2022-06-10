@@ -1,10 +1,10 @@
 package com.ob11to.entity;
 
 import com.ob11to.converter.BirthdayConverter;
-import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.Hibernate;
 
+import javax.persistence.*;
 import java.util.Objects;
 
 @Getter
@@ -20,11 +20,12 @@ public class User {
     private String username;
     private String firstname;
     private String lastname;
-    @Convert(converter = BirthdayConverter.class)
+    @Convert(converter = BirthdayConverter.class) //один из вариантов convertor
     @Column(name = "birth_date")
     private Birthday birthDate;
     @Enumerated(EnumType.STRING)
     private Role role;
+    private String info;
 
     @Override
     public boolean equals(Object o) {
