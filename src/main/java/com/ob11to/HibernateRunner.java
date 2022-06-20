@@ -17,12 +17,18 @@ public class HibernateRunner {
            try(Session session1 = sessionFactory.openSession()){
                session1.beginTransaction();
 
-               session1.save(user);
 
                session1.getTransaction().commit();
            }
            try(Session session2 = sessionFactory.openSession()){
                session2.beginTransaction();
+
+               user.setFirstname("GG-r");
+               user.setUsername("GG-r");
+//               session2.save(user);
+//               session2.merge(user);
+//               session2.refresh(user);
+
 
 
                session2.getTransaction().commit();
