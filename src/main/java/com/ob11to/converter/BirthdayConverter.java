@@ -8,7 +8,7 @@ import javax.persistence.Converter;
 import java.sql.Date;
 import java.util.Optional;
 
-@Converter(autoApply = true)
+@Converter(autoApply = true) //(второй вариант использовать converter)
 public class BirthdayConverter implements AttributeConverter<Birthday, Date> {
 
     @Override

@@ -24,7 +24,7 @@ public class User {
     private String username;
     private String firstname;
     private String lastname;
-    @Convert(converter = BirthdayConverter.class) //один из вариантов convertor
+    @Convert(converter = BirthdayConverter.class) //один из вариантов как использовать convertor
     @Column(name = "birth_date")
     private Birthday birthDate;
     @Enumerated(EnumType.STRING)
