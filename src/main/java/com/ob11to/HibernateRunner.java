@@ -17,22 +17,22 @@ public class HibernateRunner {
            try(Session session1 = sessionFactory.openSession()){
                session1.beginTransaction();
 
-               //Dirty session
-               var user1 = session1.get(User.class, user.getUsername());
-               user1.setFirstname("hello)");
-               System.out.println(session1.isDirty());
-
 
                session1.getTransaction().commit();
            }
            try(Session session2 = sessionFactory.openSession()){
                session2.beginTransaction();
 
-//               session2.save(user);
-//               session2.merge(user);
+                user.setFirstname("OBIITO");
+                //под капотом Refresh
+//               var freshUser = session2.get(User.class, user.getUsername());
+//               user.setUsername(freshUser.getUsername());
 //               session2.refresh(user);
 
-
+               //под капотом Merge
+//               var freshUser = session2.get(User.class, user.getUsername());
+//               freshUser.setUsername(user.getUsername());
+//               session2.merge(user);
 
                session2.getTransaction().commit();
            }
