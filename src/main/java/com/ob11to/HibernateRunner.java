@@ -4,38 +4,35 @@ import com.ob11to.entity.User;
 import com.ob11to.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class HibernateRunner {
+    public static final Logger log = LoggerFactory.getLogger(HibernateRunner.class);
+
     public static void main(String[] args) {
         User user = User.builder()
-                .username("hello =)")
-                .firstname("Petr")
-                .lastname("Petrov")
+                .username("obiito@ob11to.com")
+                .firstname("ob11to")
+                .lastname("uchiha")
                 .build();
+        log.info("User entity is in transient state, object: {}", user);
 
         try (SessionFactory sessionFactory = HibernateUtil.buildSessionFactory()) {
-           try(Session session1 = sessionFactory.openSession()){
-               session1.beginTransaction();
+            Session session1 = sessionFactory.openSession();
+           try(session1){
+               var transaction = session1.beginTransaction();
+               log.trace("Transaction is created, {}", transaction);
 
+                session1.saveOrUpdate(user);
 
                session1.getTransaction().commit();
            }
-           try(Session session2 = sessionFactory.openSession()){
-               session2.beginTransaction();
-
-                user.setFirstname("OBIITO");
-                //под капотом Refresh
-//               var freshUser = session2.get(User.class, user.getUsername());
-//               user.setUsername(freshUser.getUsername());
-//               session2.refresh(user);
-
-               //под капотом Merge
-//               var freshUser = session2.get(User.class, user.getUsername());
-//               freshUser.setUsername(user.getUsername());
-//               session2.merge(user);
-
-               session2.getTransaction().commit();
-           }
+           log.warn("User is in detached state: {}, session is closed {}", user,session1);
+        }catch (Exception exception){
+            log.error("Exception occurred", exception);
+            throw  exception;
         }
     }
 }
