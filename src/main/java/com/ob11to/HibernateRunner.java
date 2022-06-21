@@ -8,7 +8,7 @@ import org.hibernate.SessionFactory;
 public class HibernateRunner {
     public static void main(String[] args) {
         User user = User.builder()
-                .username("ob11to@mail.ru")
+                .username("hello =)")
                 .firstname("Petr")
                 .lastname("Petrov")
                 .build();
@@ -17,14 +17,17 @@ public class HibernateRunner {
            try(Session session1 = sessionFactory.openSession()){
                session1.beginTransaction();
 
+               //Dirty session
+               var user1 = session1.get(User.class, user.getUsername());
+               user1.setFirstname("hello)");
+               System.out.println(session1.isDirty());
+
 
                session1.getTransaction().commit();
            }
            try(Session session2 = sessionFactory.openSession()){
                session2.beginTransaction();
 
-               user.setFirstname("GG-r");
-               user.setUsername("GG-r");
 //               session2.save(user);
 //               session2.merge(user);
 //               session2.refresh(user);
