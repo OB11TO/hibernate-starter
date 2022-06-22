@@ -16,29 +16,29 @@ public class HibernateRunner {
     public static void main(String[] args) {
 
         User user = User.builder()
-                .username("berserk@ob11to.com")
+                .username("berser3k@ob11to.com")
                 .personalInfo(PersonalInfo.builder()
                         .firstname("Berserk2")
                         .lastname("Berserk")
-                        .birthDate(new Birthday(LocalDate.of(1000,1,1)))
+                        .birthDate(new Birthday(LocalDate.of(1000, 1, 1)))
                         .build())
                 .build();
         log.info("User entity is in transient state, object: {}", user);
 
         try (SessionFactory sessionFactory = HibernateUtil.buildSessionFactory()) {
             Session session1 = sessionFactory.openSession();
-           try(session1){
-               var transaction = session1.beginTransaction();
-               log.trace("Transaction is created, {}", transaction);
+            try (session1) {
+                var transaction = session1.beginTransaction();
+                log.trace("Transaction is created, {}", transaction);
 
                 session1.saveOrUpdate(user);
 
-               session1.getTransaction().commit();
-           }
-           log.warn("User is in detached state: {}, session is closed {}", user,session1);
-        }catch (Exception exception){
+                session1.getTransaction().commit();
+            }
+            log.warn("User is in detached state: {}, session is closed {}", user, session1);
+        } catch (Exception exception) {
             log.error("Exception occurred", exception);
-            throw  exception;
+            throw exception;
         }
     }
 }
