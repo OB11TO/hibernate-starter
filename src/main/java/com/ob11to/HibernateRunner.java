@@ -1,10 +1,14 @@
 package com.ob11to;
 
+import com.ob11to.entity.Birthday;
+import com.ob11to.entity.PersonalInfo;
 import com.ob11to.entity.User;
 import com.ob11to.util.HibernateUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+
+import java.time.LocalDate;
 
 @Slf4j
 public class HibernateRunner {
@@ -12,9 +16,12 @@ public class HibernateRunner {
     public static void main(String[] args) {
 
         User user = User.builder()
-                .username("obiito@ob11to.com")
-                .firstname("ob11to")
-                .lastname("uchiha")
+                .username("berserk@ob11to.com")
+                .personalInfo(PersonalInfo.builder()
+                        .firstname("Berserk2")
+                        .lastname("Berserk")
+                        .birthDate(new Birthday(LocalDate.of(1000,1,1)))
+                        .build())
                 .build();
         log.info("User entity is in transient state, object: {}", user);
 

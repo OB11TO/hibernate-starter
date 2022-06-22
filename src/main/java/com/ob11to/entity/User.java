@@ -1,6 +1,5 @@
 package com.ob11to.entity;
 
-import com.ob11to.converter.BirthdayConverter;
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,11 +20,11 @@ import javax.persistence.*;
 public class User {
     @Id
     private String username;
-    private String firstname;
-    private String lastname;
-    @Convert(converter = BirthdayConverter.class) //один из вариантов как использовать convertor
-    @Column(name = "birth_date")
-    private Birthday birthDate;
+
+    @Embedded
+    @AttributeOverride(name = "birthDate", column = @Column(name = "birth_date"))
+    private PersonalInfo personalInfo;
+
     @Enumerated(EnumType.STRING)
     private Role role;
     @Type(type = "json")  //у JsonBinaryType есть getName()

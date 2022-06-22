@@ -9,3 +9,6 @@ CREATE TABLE users
 );
 
 DROP TABLE users;
+
+DELETE FROM users
+WHERE username = 'hello =)';
