@@ -18,8 +18,8 @@ public class HibernateRunner {
         User user = User.builder()
                 .username("berser3k@ob11to.com")
                 .personalInfo(PersonalInfo.builder()
-                        .firstname("Berserk2")
-                        .lastname("Berserk")
+                        .firstname("Berserk1")
+                        .lastname("Berserk1")
                         .birthDate(new Birthday(LocalDate.of(1000, 1, 1)))
                         .build())
                 .build();
@@ -36,6 +36,16 @@ public class HibernateRunner {
                 session1.getTransaction().commit();
             }
             log.warn("User is in detached state: {}, session is closed {}", user, session1);
+            try(Session session2 = sessionFactory.openSession()){
+                var key = PersonalInfo.builder()
+                        .firstname("Berserk1")
+                        .lastname("Berserk1")
+                        .birthDate(new Birthday(LocalDate.of(1000, 1, 1)))
+                        .build();
+
+                var user1 = session2.get(User.class, key);
+                System.out.println(user1);
+            }
         } catch (Exception exception) {
             log.error("Exception occurred", exception);
             throw exception;
