@@ -10,6 +10,7 @@ import org.hibernate.SessionFactory;
 public class HibernateRunner {
 
     public static void main(String[] args) {
+
         User user = User.builder()
                 .username("obiito@ob11to.com")
                 .firstname("ob11to")

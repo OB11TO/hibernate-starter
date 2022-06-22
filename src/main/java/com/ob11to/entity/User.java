@@ -2,17 +2,16 @@ package com.ob11to.entity;
 
 import com.ob11to.converter.BirthdayConverter;
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
-import lombok.*;
-import org.hibernate.Hibernate;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 
 import javax.persistence.*;
-import java.util.Objects;
 
-@Getter
-@Setter
-@ToString
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -32,16 +31,4 @@ public class User {
     @Type(type = "json")  //у JsonBinaryType есть getName()
     private String info;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        User user = (User) o;
-        return username != null && Objects.equals(username, user.username);
-    }
-
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
-    }
 }
