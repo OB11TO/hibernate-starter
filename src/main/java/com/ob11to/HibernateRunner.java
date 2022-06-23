@@ -16,16 +16,17 @@ public class HibernateRunner {
 
     public static void main(String[] args) {
         Company company = Company.builder()
-                .name("Google")
+                .name("Kivi")
                 .build();
 
         User user = User.builder()
-                .username("berser3k@ob11to.com")
+                .username("berserk@ob11to.com")
                 .personalInfo(PersonalInfo.builder()
                         .firstname("Berserk")
                         .lastname("Berserk1")
                         .birthDate(new Birthday(LocalDate.of(1000, 1, 1)))
                         .build())
+                .companyId(company)
                 .build();
         log.info("User entity is in transient state, object: {}", user);
 
@@ -35,8 +36,9 @@ public class HibernateRunner {
                 var transaction = session1.beginTransaction();
                 log.trace("Transaction is created, {}", transaction);
 
-                session1.save(company);
-                session1.save(user);
+              var user1 = session1.get(User.class, 2L);
+//                session1.save(company);
+//                session1.save(user);
 
                 session1.getTransaction().commit();
             }
