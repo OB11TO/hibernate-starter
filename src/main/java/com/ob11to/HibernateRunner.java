@@ -1,6 +1,7 @@
 package com.ob11to;
 
 import com.ob11to.entity.Birthday;
+import com.ob11to.entity.Company;
 import com.ob11to.entity.PersonalInfo;
 import com.ob11to.entity.User;
 import com.ob11to.util.HibernateUtil;
@@ -14,11 +15,14 @@ import java.time.LocalDate;
 public class HibernateRunner {
 
     public static void main(String[] args) {
+        Company company = Company.builder()
+                .name("Google")
+                .build();
 
         User user = User.builder()
                 .username("berser3k@ob11to.com")
                 .personalInfo(PersonalInfo.builder()
-                        .firstname("Berserk1")
+                        .firstname("Berserk")
                         .lastname("Berserk1")
                         .birthDate(new Birthday(LocalDate.of(1000, 1, 1)))
                         .build())
@@ -31,21 +35,12 @@ public class HibernateRunner {
                 var transaction = session1.beginTransaction();
                 log.trace("Transaction is created, {}", transaction);
 
-                session1.saveOrUpdate(user);
+                session1.save(company);
+                session1.save(user);
 
                 session1.getTransaction().commit();
             }
             log.warn("User is in detached state: {}, session is closed {}", user, session1);
-            try(Session session2 = sessionFactory.openSession()){
-                var key = PersonalInfo.builder()
-                        .firstname("Berserk1")
-                        .lastname("Berserk1")
-                        .birthDate(new Birthday(LocalDate.of(1000, 1, 1)))
-                        .build();
-
-                var user1 = session2.get(User.class, key);
-                System.out.println(user1);
-            }
         } catch (Exception exception) {
             log.error("Exception occurred", exception);
             throw exception;

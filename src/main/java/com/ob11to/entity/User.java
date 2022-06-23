@@ -19,7 +19,11 @@ import javax.persistence.*;
 @TypeDef(name = "json", typeClass = JsonBinaryType.class)
 public class User {
 
-    @EmbeddedId
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Embedded
     @AttributeOverride(name = "birthDate", column = @Column(name = "birth_date"))
     private PersonalInfo personalInfo;
 
@@ -30,5 +34,9 @@ public class User {
     private Role role;
     @Type(type = "json")  //у JsonBinaryType есть getName()
     private String info;
+
+    @ManyToOne
+    @JoinColumn(name = "company_id")
+    private Company companyId;
 
 }
