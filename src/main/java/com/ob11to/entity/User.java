@@ -1,10 +1,7 @@
 package com.ob11to.entity;
 
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 
@@ -35,8 +32,8 @@ public class User {
     @Type(type = "json")  //у JsonBinaryType есть getName()
     private String info;
 
-    @ManyToOne(optional = false ,fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id")
-    private Company companyId;
+    private Company company;
 
 }

@@ -6,6 +6,7 @@ import com.ob11to.entity.PersonalInfo;
 import com.ob11to.entity.User;
 import com.ob11to.util.HibernateUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
@@ -26,7 +27,7 @@ public class HibernateRunner {
                         .lastname("Berserk1")
                         .birthDate(new Birthday(LocalDate.of(1000, 1, 1)))
                         .build())
-                .companyId(company)
+                .company(company)
                 .build();
         log.info("User entity is in transient state, object: {}", user);
 
@@ -37,8 +38,12 @@ public class HibernateRunner {
                 log.trace("Transaction is created, {}", transaction);
 
               var user1 = session1.get(User.class, 2L);
+              Company company1 = user1.getCompany();
+              String name = company1.getName();
 //                session1.save(company);
 //                session1.save(user);
+
+                var object = Hibernate.unproxy(company1);
 
                 session1.getTransaction().commit();
             }
