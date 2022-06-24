@@ -17,11 +17,11 @@ public class HibernateRunner {
 
     public static void main(String[] args) {
         Company company = Company.builder()
-                .name("Kivi")
+                .name("Amazon")
                 .build();
 
         User user = User.builder()
-                .username("berserk@ob11to.com")
+                .username("o@ob11to.com")
                 .personalInfo(PersonalInfo.builder()
                         .firstname("Berserk")
                         .lastname("Berserk1")
@@ -37,13 +37,9 @@ public class HibernateRunner {
                 var transaction = session1.beginTransaction();
                 log.trace("Transaction is created, {}", transaction);
 
-              var user1 = session1.get(User.class, 2L);
-              Company company1 = user1.getCompany();
-              String name = company1.getName();
-//                session1.save(company);
-//                session1.save(user);
-
-                var object = Hibernate.unproxy(company1);
+//                session1.evict(user1);
+//
+                session1.save(user);
 
                 session1.getTransaction().commit();
             }

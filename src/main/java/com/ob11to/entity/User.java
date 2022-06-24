@@ -32,7 +32,7 @@ public class User {
     @Type(type = "json")  //у JsonBinaryType есть getName()
     private String info;
 
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.PERSIST})
     @JoinColumn(name = "company_id")
     private Company company;
 
