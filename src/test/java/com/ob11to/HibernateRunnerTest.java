@@ -23,12 +23,62 @@ import java.util.stream.Collectors;
 
 class HibernateRunnerTest {
 
+    @Test
+    void manyToOneDeleteUser(){
+        @Cleanup var sessionFactory = HibernateUtil.buildSessionFactory();
+        @Cleanup var session = sessionFactory.openSession();
+        session.beginTransaction();
+
+        var company = session.get(Company.class, 7);
+        session.delete(company);
+
+        session.getTransaction().commit();
+    }
+
+    @Test
+    void oneToManyDeleteCompany(){
+        @Cleanup var sessionFactory = HibernateUtil.buildSessionFactory();
+        @Cleanup var session = sessionFactory.openSession();
+        session.beginTransaction();
+
+        var company = session.get(Company.class, 1);
+        session.delete(company);
+
+        session.getTransaction().commit();
+    }
+
+    @Test
+    void oneToManyAddUserToNewCompany(){
+        @Cleanup var sessionFactory = HibernateUtil.buildSessionFactory();
+        @Cleanup var session = sessionFactory.openSession();
+        session.beginTransaction();
+
+        var company = Company.builder()
+                .name("google")
+                .build();
+
+        var user = User.builder()
+                .username("2@g.ru")
+                .build();
+
+        var user2 = User.builder()
+                .username("1@g.ru")
+                .build();
+//        user.setCompany(company);
+//        company.getUsers().add(user);
+        company.addUser(user);
+        company.addUser(user2);
+
+        session.save(company);
+
+
+        session.getTransaction().commit();
+    }
 
     @Test
     void oneToMany(){
         @Cleanup var sessionFactory = HibernateUtil.buildSessionFactory();
         @Cleanup var session = sessionFactory.openSession();
-
         session.beginTransaction();
 
         var company = session.get(Company.class, 1);

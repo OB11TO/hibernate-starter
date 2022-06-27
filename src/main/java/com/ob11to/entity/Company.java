@@ -3,6 +3,7 @@ package com.ob11to.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -19,8 +20,14 @@ public class Company {
 
     private String name;
 
-    @OneToMany(mappedBy = "company")
+    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    Set<User> users;
+    @Builder.Default
+    Set<User> users = new HashSet<>();
+
+    public void addUser(User user){
+        users.add(user);
+        user.setCompany(this);
+    }
 }
