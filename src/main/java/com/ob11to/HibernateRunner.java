@@ -39,7 +39,8 @@ public class HibernateRunner {
 
 //                session1.evict(user1);
 //
-                session1.save(user);
+                   session1.save(user);
+
 
                 session1.getTransaction().commit();
             }

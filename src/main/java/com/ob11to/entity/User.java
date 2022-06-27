@@ -2,6 +2,7 @@ package com.ob11to.entity;
 
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 import lombok.*;
+import net.bytebuddy.build.ToStringPlugin;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 
@@ -29,10 +30,10 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     private Role role;
-    @Type(type = "json")  //у JsonBinaryType есть getName()
+    @Type(type = "json")
     private String info;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.PERSIST})
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id")
     private Company company;
 

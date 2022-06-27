@@ -1,9 +1,15 @@
 package com.ob11to;
 
 import com.ob11to.entity.Birthday;
+import com.ob11to.entity.Company;
 import com.ob11to.entity.User;
 import javax.persistence.Column;
 import javax.persistence.Table;
+
+import com.ob11to.util.HibernateUtil;
+import lombok.Cleanup;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Field;
@@ -16,6 +22,21 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 class HibernateRunnerTest {
+
+
+    @Test
+    void oneToMany(){
+        @Cleanup var sessionFactory = HibernateUtil.buildSessionFactory();
+        @Cleanup var session = sessionFactory.openSession();
+
+        session.beginTransaction();
+
+        var company = session.get(Company.class, 1);
+        System.out.println("");
+
+        session.getTransaction().commit();
+
+    }
 
     @Test
     void checkReflectionApi() throws SQLException, IllegalAccessException {

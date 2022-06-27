@@ -1,14 +1,10 @@
 package com.ob11to.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -22,4 +18,9 @@ public class Company {
     private Integer id;
 
     private String name;
+
+    @OneToMany(mappedBy = "company")
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    Set<User> users;
 }
