@@ -23,6 +23,21 @@ import java.util.stream.Collectors;
 class HibernateRunnerTest {
 
     @Test
+    void orphanRemoval(){
+        try(var sessionFactory = HibernateUtil.buildSessionFactory();
+            var session = sessionFactory.openSession()){
+            session.beginTransaction();
+
+//            company = session.get(Company.class, 7);
+            Company company = session.getReference(Company.class, 8);
+            company.getUsers().removeIf(user -> user.getId().equals(6L));
+
+
+            session.getTransaction().commit();
+        }
+    }
+
+    @Test
     void lazyInitializationException(){
         Company company = null;
         try(var sessionFactory = HibernateUtil.buildSessionFactory();
