@@ -37,9 +37,8 @@ public class HibernateRunner {
                 var transaction = session1.beginTransaction();
                 log.trace("Transaction is created, {}", transaction);
 
-//                session1.evict(user1);
-//
-                   session1.save(user);
+                var company1 = session1.get(Company.class, 8);
+                System.out.println("");
 
 
                 session1.getTransaction().commit();

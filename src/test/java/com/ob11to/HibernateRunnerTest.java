@@ -17,11 +17,26 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 class HibernateRunnerTest {
+
+    @Test
+    void lazyInitializationException(){
+        Company company = null;
+        try(var sessionFactory = HibernateUtil.buildSessionFactory();
+            var session = sessionFactory.openSession()){
+            session.beginTransaction();
+
+//            company = session.get(Company.class, 7);
+            company = session.getReference(Company.class, 7);
+
+            session.getTransaction().commit();
+        }
+        var users = company.getUsers();
+        System.out.println(users.size());
+    }
 
     @Test
     void manyToOneDeleteUser(){
