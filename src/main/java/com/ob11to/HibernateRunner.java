@@ -27,7 +27,6 @@ public class HibernateRunner {
                         .lastname("Berserk1")
                         .birthDate(new Birthday(LocalDate.of(1000, 1, 1)))
                         .build())
-                .company(company)
                 .build();
         log.info("User entity is in transient state, object: {}", user);
 
@@ -37,7 +36,7 @@ public class HibernateRunner {
                 var transaction = session1.beginTransaction();
                 log.trace("Transaction is created, {}", transaction);
 
-                var company1 = session1.get(Company.class, 8);
+                var company1 = session1.get(Company.class, 4);
                 System.out.println("");
 
 

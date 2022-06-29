@@ -31,15 +31,17 @@ class HibernateRunnerTest {
             session.beginTransaction();
 
             var user = User.builder()
-                    .username("dsf")
+                    .username("oneToOne1")
                     .build();
             var profile = Profile.builder()
-                    .language("ggs")
-                    .street("gdg")
+                    .language("ru")
+                    .street("40 let")
                     .build();
 
-            session.save(user);
-            profile.setUser(user);
+//            profile.setUser(user);
+//            session.save(user);
+            var user1 = session.get(User.class, 4L);
+            System.out.println("");
 
 
             session.getTransaction().commit();
@@ -110,19 +112,21 @@ class HibernateRunnerTest {
         var company = Company.builder()
                 .name("google")
                 .build();
-
         var user = User.builder()
-                .username("2@g.ru")
+                .username("22@g.ru")
                 .build();
+//        var profile = Profile.builder()
+//                .street("22")
+//                .build();
+//        profile.setUser(user);
 
         var user2 = User.builder()
-                .username("1@g.ru")
+                .username("11@g.ru")
                 .build();
 //        user.setCompany(company);
 //        company.getUsers().add(user);
         company.addUser(user);
         company.addUser(user2);
-
         session.save(company);
 
 
