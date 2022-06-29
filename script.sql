@@ -10,6 +10,13 @@ CREATE TABLE users
     company_id INT REFERENCES company (id)
 );
 
+CREATE TABLE profile
+(
+    user_id BIGINT PRIMARY KEY REFERENCES users (id),
+    street VARCHAR(128),
+    language CHAR(3)
+);
+
 CREATE TABLE company
 (
     id SERIAL PRIMARY KEY,

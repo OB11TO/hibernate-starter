@@ -14,6 +14,7 @@
 
         <mapping class="com.ob11to.entity.User"/>
         <mapping class="com.ob11to.entity.Company"/>
+        <mapping class="com.ob11to.entity.Profile"/>
 
         <!-- DB schema will be updated if needed -->
         <!-- <property name="hibernate.hbm2ddl.auto">update</property> -->

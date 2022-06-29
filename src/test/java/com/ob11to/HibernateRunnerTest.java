@@ -2,7 +2,9 @@ package com.ob11to;
 
 import com.ob11to.entity.Birthday;
 import com.ob11to.entity.Company;
+import com.ob11to.entity.Profile;
 import com.ob11to.entity.User;
+
 import javax.persistence.Column;
 import javax.persistence.Table;
 
@@ -23,9 +25,31 @@ import java.util.stream.Collectors;
 class HibernateRunnerTest {
 
     @Test
-    void orphanRemoval(){
-        try(var sessionFactory = HibernateUtil.buildSessionFactory();
-            var session = sessionFactory.openSession()){
+    void oneToOnePrimaryKey() {
+        try (var sessionFactory = HibernateUtil.buildSessionFactory();
+             var session = sessionFactory.openSession()) {
+            session.beginTransaction();
+
+            var user = User.builder()
+                    .username("dsf")
+                    .build();
+            var profile = Profile.builder()
+                    .language("ggs")
+                    .street("gdg")
+                    .build();
+
+            session.save(user);
+            profile.setUser(user);
+
+
+            session.getTransaction().commit();
+        }
+    }
+
+    @Test
+    void orphanRemoval() {
+        try (var sessionFactory = HibernateUtil.buildSessionFactory();
+             var session = sessionFactory.openSession()) {
             session.beginTransaction();
 
 //            company = session.get(Company.class, 7);
@@ -38,10 +62,10 @@ class HibernateRunnerTest {
     }
 
     @Test
-    void lazyInitializationException(){
+    void lazyInitializationException() {
         Company company = null;
-        try(var sessionFactory = HibernateUtil.buildSessionFactory();
-            var session = sessionFactory.openSession()){
+        try (var sessionFactory = HibernateUtil.buildSessionFactory();
+             var session = sessionFactory.openSession()) {
             session.beginTransaction();
 
 //            company = session.get(Company.class, 7);
@@ -54,7 +78,7 @@ class HibernateRunnerTest {
     }
 
     @Test
-    void manyToOneDeleteUser(){
+    void manyToOneDeleteUser() {
         @Cleanup var sessionFactory = HibernateUtil.buildSessionFactory();
         @Cleanup var session = sessionFactory.openSession();
         session.beginTransaction();
@@ -66,7 +90,7 @@ class HibernateRunnerTest {
     }
 
     @Test
-    void oneToManyDeleteCompany(){
+    void oneToManyDeleteCompany() {
         @Cleanup var sessionFactory = HibernateUtil.buildSessionFactory();
         @Cleanup var session = sessionFactory.openSession();
         session.beginTransaction();
@@ -78,7 +102,7 @@ class HibernateRunnerTest {
     }
 
     @Test
-    void oneToManyAddUserToNewCompany(){
+    void oneToManyAddUserToNewCompany() {
         @Cleanup var sessionFactory = HibernateUtil.buildSessionFactory();
         @Cleanup var session = sessionFactory.openSession();
         session.beginTransaction();
@@ -106,7 +130,7 @@ class HibernateRunnerTest {
     }
 
     @Test
-    void oneToMany(){
+    void oneToMany() {
         @Cleanup var sessionFactory = HibernateUtil.buildSessionFactory();
         @Cleanup var session = sessionFactory.openSession();
         session.beginTransaction();
