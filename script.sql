@@ -12,9 +12,11 @@ CREATE TABLE users
 
 CREATE TABLE user_chat
 (
+    id BIGSERIAL PRIMARY KEY,
     user_id BIGINT REFERENCES users (id),
     chat_id BIGSERIAL REFERENCES chat (id),
-    PRIMARY KEY (user_id, chat_id)
+    created_at TIMESTAMP NOT NULL,
+    created_by VARCHAR(128) NOT NULL
 );
 
 CREATE TABLE chat
@@ -40,6 +42,7 @@ CREATE TABLE company
 DROP TABLE users;
 DROP TABLE profile;
 DROP TABLE company CASCADE;
+DROP TABLE user_chat;
 
 DELETE
 FROM users

@@ -15,12 +15,37 @@ import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 class HibernateRunnerTest {
+
+    @Test
+    void manyToManySeparateEntity() {
+        try (var sessionFactory = HibernateUtil.buildSessionFactory();
+             var session = sessionFactory.openSession()) {
+            session.beginTransaction();
+
+            var user = session.get(User.class, 10L);
+            var chat = session.get(Chat.class, 2L);
+
+            var userChat = UserChat.builder()
+                    .createdAt(Instant.now())
+                    .createdBy(user.getUsername())
+                    .build();
+            userChat.setUser(user);
+            userChat.setChat(chat);
+
+            session.save(userChat);
+            System.out.println("");
+
+
+            session.getTransaction().commit();
+        }
+    }
 
     @Test
     void manyToManyTest(){
@@ -38,12 +63,12 @@ class HibernateRunnerTest {
 //            var user1 = session.get(User.class, 10L);
 //            user.addChat(chat);
 //            session.save(chat);
-
-            var chat1 = session.get(Chat.class, 2L);
-            user.addChat(chat1);
-            session.save(user);
-
-            System.out.println("");
+//
+//            var chat1 = session.get(Chat.class, 2L);
+//            user.addChat(chat1);
+//            session.save(user);
+//
+//            System.out.println("");
 
 
             session.getTransaction().commit();

@@ -12,14 +12,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import java.util.HashSet;
 import java.util.Set;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(exclude = "users")
+@ToString(exclude = "userChats")
 @EqualsAndHashCode(of = "name")
 @Builder
 @Entity
@@ -33,7 +33,7 @@ public class Chat {
     private String name;
 
     @Builder.Default
-    @ManyToMany(mappedBy = "chats")
-    private Set<User> users = new HashSet<>();
+    @OneToMany(mappedBy = "chat")
+    private Set<UserChat> userChats = new HashSet<>();
 
 }
