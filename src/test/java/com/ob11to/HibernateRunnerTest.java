@@ -1,9 +1,6 @@
 package com.ob11to;
 
-import com.ob11to.entity.Birthday;
-import com.ob11to.entity.Company;
-import com.ob11to.entity.Profile;
-import com.ob11to.entity.User;
+import com.ob11to.entity.*;
 
 import javax.persistence.Column;
 import javax.persistence.Table;
@@ -19,10 +16,39 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 class HibernateRunnerTest {
+
+    @Test
+    void manyToManyTest(){
+        try (var sessionFactory = HibernateUtil.buildSessionFactory();
+             var session = sessionFactory.openSession()) {
+            session.beginTransaction();
+
+            var user = User.builder()
+                    .username("manyToManyYandex")
+                    .build();
+            var chat = Chat.builder()
+                    .name("yandex")
+                    .build();
+
+//            var user1 = session.get(User.class, 10L);
+//            user.addChat(chat);
+//            session.save(chat);
+
+            var chat1 = session.get(Chat.class, 2L);
+            user.addChat(chat1);
+            session.save(user);
+
+            System.out.println("");
+
+
+            session.getTransaction().commit();
+        }
+    }
 
     @Test
     void oneToOnePrimaryKey() {
@@ -31,16 +57,16 @@ class HibernateRunnerTest {
             session.beginTransaction();
 
             var user = User.builder()
-                    .username("oneToOne1")
+                    .username("oneToOne2")
                     .build();
             var profile = Profile.builder()
-                    .language("ru")
-                    .street("40 let")
+                    .language("en")
+                    .street("50 let")
                     .build();
 
-//            profile.setUser(user);
-//            session.save(user);
-            var user1 = session.get(User.class, 4L);
+            profile.setUser(user);
+            session.save(user);
+//            var user1 = session.get(User.class, 4L);
             System.out.println("");
 
 
@@ -110,10 +136,10 @@ class HibernateRunnerTest {
         session.beginTransaction();
 
         var company = Company.builder()
-                .name("google")
+                .name("vk")
                 .build();
         var user = User.builder()
-                .username("22@g.ru")
+                .username("22@vk.ru")
                 .build();
 //        var profile = Profile.builder()
 //                .street("22")
@@ -121,7 +147,7 @@ class HibernateRunnerTest {
 //        profile.setUser(user);
 
         var user2 = User.builder()
-                .username("11@g.ru")
+                .username("11@vk.ru")
                 .build();
 //        user.setCompany(company);
 //        company.getUsers().add(user);

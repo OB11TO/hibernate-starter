@@ -10,17 +10,30 @@ CREATE TABLE users
     company_id INT REFERENCES company (id)
 );
 
+CREATE TABLE user_chat
+(
+    user_id BIGINT REFERENCES users (id),
+    chat_id BIGSERIAL REFERENCES chat (id),
+    PRIMARY KEY (user_id, chat_id)
+);
+
+CREATE TABLE chat
+(
+    id   BIGSERIAL PRIMARY KEY,
+    name VARCHAR(64) NOT NULL UNIQUE
+);
+
 CREATE TABLE profile
 (
-    id BIGSERIAL PRIMARY KEY,
-    user_id BIGINT UNIQUE REFERENCES users (id),
-    street VARCHAR(128),
+    id       BIGSERIAL PRIMARY KEY,
+    user_id  BIGINT UNIQUE REFERENCES users (id),
+    street   VARCHAR(128),
     language CHAR(3)
 );
 
 CREATE TABLE company
 (
-    id SERIAL PRIMARY KEY,
+    id   SERIAL PRIMARY KEY,
     name VARCHAR(64) NOT NULL UNIQUE
 );
 
