@@ -21,7 +21,7 @@ import java.util.Set;
 @Entity
 @Table(name = "users", schema = "public")
 @TypeDef(name = "json", typeClass = JsonBinaryType.class)
-public class User {
+public class User implements Comparable<User> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -51,4 +51,8 @@ public class User {
     @Builder.Default
     private List<UserChat> userChats = new ArrayList<>();
 
+    @Override
+    public int compareTo(User o) {
+        return username.compareTo(o.username);
+    }
 }

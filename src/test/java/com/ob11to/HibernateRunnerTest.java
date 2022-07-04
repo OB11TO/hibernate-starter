@@ -23,6 +23,20 @@ import java.util.stream.Collectors;
 class HibernateRunnerTest {
 
     @Test
+    void collectionOrdering(){
+        try (var sessionFactory = HibernateUtil.buildSessionFactory();
+             var session = sessionFactory.openSession()) {
+            session.beginTransaction();
+
+            var company = session.get(Company.class, 5);
+
+            company.getUsers().forEach(System.out::println);
+
+            session.getTransaction().commit();
+        }
+    }
+
+    @Test
     void elementCollectionTest(){
         try (var sessionFactory = HibernateUtil.buildSessionFactory();
              var session = sessionFactory.openSession()) {
