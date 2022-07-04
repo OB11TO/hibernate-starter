@@ -1,10 +1,9 @@
 package com.ob11to;
 
-import com.ob11to.entity.*;
-
 import javax.persistence.Column;
 import javax.persistence.Table;
 
+import com.ob11to.entity.*;
 import com.ob11to.util.HibernateUtil;
 import lombok.Cleanup;
 import org.hibernate.Session;
@@ -22,6 +21,21 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 class HibernateRunnerTest {
+
+    @Test
+    void elementCollectionTest(){
+        try (var sessionFactory = HibernateUtil.buildSessionFactory();
+             var session = sessionFactory.openSession()) {
+            session.beginTransaction();
+
+            var company = session.get(Company.class, 3);
+            company.getLocals().add(LocaleInfo.of("ru", "Описание на русском"));
+            company.getLocals().add(LocaleInfo.of("en", "English description"));
+            System.out.println(company.getLocals());
+
+            session.getTransaction().commit();
+        }
+    }
 
     @Test
     void manyToManySeparateEntity() {
@@ -136,8 +150,8 @@ class HibernateRunnerTest {
         @Cleanup var session = sessionFactory.openSession();
         session.beginTransaction();
 
-        var company = session.get(Company.class, 7);
-        session.delete(company);
+        var user = session.get(User.class, 2L);
+        session.delete(user);
 
         session.getTransaction().commit();
     }
