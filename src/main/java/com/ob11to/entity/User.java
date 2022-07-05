@@ -21,7 +21,7 @@ import java.util.Set;
 @Entity
 @Table(name = "users", schema = "public")
 //@TypeDef(name = "json", typeClass = JsonBinaryType.class)
-public class User implements Comparable<User> {
+public class User implements Comparable<User>, BaseEntity<Long>{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

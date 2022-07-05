@@ -90,8 +90,8 @@ class HibernateRunnerTest {
             var chat = session.get(Chat.class, 2L);
 
             var userChat = UserChat.builder()
-                    .createdAt(Instant.now())
-                    .createdBy(user.getUsername())
+//                    .createdAt(Instant.now())
+//                    .createdBy(user.getUsername())
                     .build();
             userChat.setUser(user);
             userChat.setChat(chat);
