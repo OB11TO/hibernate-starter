@@ -23,6 +23,20 @@ import java.util.stream.Collectors;
 class HibernateRunnerTest {
 
     @Test
+    void checkH2() {
+        try (var sessionFactory = HibernateUtil.buildSessionFactory();
+             var session = sessionFactory.openSession()) {
+            session.beginTransaction();
+
+            var company = Company.builder()
+                    .name("Google")
+                    .build();
+
+            session.getTransaction().commit();
+        }
+    }
+
+    @Test
     void mapsInMapping() {
         try (var sessionFactory = HibernateUtil.buildSessionFactory();
              var session = sessionFactory.openSession()) {
@@ -30,7 +44,7 @@ class HibernateRunnerTest {
 
             var company = session.get(Company.class, 5);
 
-            company.getUsers().forEach((k,v) -> System.out.println(v));
+            company.getUsers().forEach((k, v) -> System.out.println(v));
 
             session.getTransaction().commit();
         }
