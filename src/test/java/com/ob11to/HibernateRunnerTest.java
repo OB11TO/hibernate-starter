@@ -23,21 +23,35 @@ import java.util.stream.Collectors;
 class HibernateRunnerTest {
 
     @Test
-    void collectionOrdering(){
+    void mapsInMapping() {
         try (var sessionFactory = HibernateUtil.buildSessionFactory();
              var session = sessionFactory.openSession()) {
             session.beginTransaction();
 
             var company = session.get(Company.class, 5);
 
-            company.getUsers().forEach(System.out::println);
+            company.getUsers().forEach((k,v) -> System.out.println(v));
 
             session.getTransaction().commit();
         }
     }
 
     @Test
-    void elementCollectionTest(){
+    void collectionOrdering() {
+        try (var sessionFactory = HibernateUtil.buildSessionFactory();
+             var session = sessionFactory.openSession()) {
+            session.beginTransaction();
+
+            var company = session.get(Company.class, 5);
+
+//            company.getUsers().forEach(System.out::println);
+
+            session.getTransaction().commit();
+        }
+    }
+
+    @Test
+    void elementCollectionTest() {
         try (var sessionFactory = HibernateUtil.buildSessionFactory();
              var session = sessionFactory.openSession()) {
             session.beginTransaction();
@@ -76,7 +90,7 @@ class HibernateRunnerTest {
     }
 
     @Test
-    void manyToManyTest(){
+    void manyToManyTest() {
         try (var sessionFactory = HibernateUtil.buildSessionFactory();
              var session = sessionFactory.openSession()) {
             session.beginTransaction();
@@ -135,7 +149,7 @@ class HibernateRunnerTest {
 
 //            company = session.get(Company.class, 7);
             Company company = session.getReference(Company.class, 8);
-            company.getUsers().removeIf(user -> user.getId().equals(6L));
+//            company.getUsers().removeIf(user -> user.getId().equals(6L));
 
 
             session.getTransaction().commit();

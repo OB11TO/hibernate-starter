@@ -37,10 +37,11 @@ public class Company {
     @Builder.Default
 //    @OrderBy("username, personalInfo.lastname")
     @SortNatural
-    private Set<User> users = new TreeSet<>();
+    @MapKey(name = "username")
+    private Map<String, User> users = new TreeMap<>();
 
     public void addUser(User user) {
-        users.add(user);
+        users.put(user.getUsername(), user);
         user.setCompany(this);
     }
 }
