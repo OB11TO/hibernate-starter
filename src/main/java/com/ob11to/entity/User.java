@@ -20,7 +20,7 @@ import java.util.Set;
 @Builder
 @Entity
 @Table(name = "users", schema = "public")
-//@TypeDef(name = "json", typeClass = JsonBinaryType.class)
+@TypeDef(name = "json", typeClass = JsonBinaryType.class)
 public class User implements Comparable<User>, BaseEntity<Long>{
 
     @Id
@@ -37,8 +37,8 @@ public class User implements Comparable<User>, BaseEntity<Long>{
     @Enumerated(EnumType.STRING)
     private Role role;
 
-//    @Type(type = "json")
-//    private String info;
+    @Type(type = "json")
+    private String info;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id")

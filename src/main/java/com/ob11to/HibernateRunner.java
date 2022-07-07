@@ -37,6 +37,7 @@ public class HibernateRunner {
                 log.trace("Transaction is created, {}", transaction);
 
                 var company1 = session1.get(Company.class, 4);
+                System.out.println(company1);
                 System.out.println("");
 
 

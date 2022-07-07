@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Table;
 
 import com.ob11to.entity.*;
+import com.ob11to.util.HibernateTestUtil;
 import com.ob11to.util.HibernateUtil;
 import lombok.Cleanup;
 import org.hibernate.Session;
@@ -20,7 +21,24 @@ import java.util.Arrays;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+
 class HibernateRunnerTest {
+
+    @Test
+    void checkDockerTestContainers() {
+        try (var sessionFactory = HibernateTestUtil.buildSessionFactory();
+             var session = sessionFactory.openSession()) {
+            session.beginTransaction();
+
+            var com = Company.builder()
+                    .name("Google")
+                    .build();
+            session.save(com);
+            System.out.println("");
+
+            session.getTransaction().commit();
+        }
+    }
 
     @Test
     void checkH2() {
