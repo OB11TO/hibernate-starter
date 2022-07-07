@@ -25,6 +25,44 @@ import java.util.stream.Collectors;
 class HibernateRunnerTest {
 
     @Test
+    void checkTablePerClass(){
+        try (var sessionFactory = HibernateTestUtil.buildSessionFactory();
+             var session = sessionFactory.openSession()) {
+            session.beginTransaction();
+
+            var yandex = Company.builder()
+                    .name("yandex")
+                    .build();
+            session.save(yandex);
+
+            var programmer = Programmer.builder()
+                    .username("ivan@gmail.com")
+                    .language(Language.JAVA)
+                    .company(yandex)
+                    .build();
+            session.save(programmer);
+
+            var manager = Manager.builder()
+                    .username("sveta@gmail.com")
+                    .projectName("Starter")
+                    .company(yandex)
+                    .build();
+            session.save(manager);
+
+            session.flush();
+
+            session.clear();
+
+            var programmer1 = session.get(Programmer.class, 1L);
+            var user = session.get(User.class, 2L);
+            System.out.println();
+
+
+            session.getTransaction().commit();
+        }
+    }
+
+    @Test
     void checkDockerTestContainers() {
         try (var sessionFactory = HibernateTestUtil.buildSessionFactory();
              var session = sessionFactory.openSession()) {
@@ -128,9 +166,9 @@ class HibernateRunnerTest {
              var session = sessionFactory.openSession()) {
             session.beginTransaction();
 
-            var user = User.builder()
-                    .username("manyToManyYandex")
-                    .build();
+//            var user = User.builder()
+//                    .username("manyToManyYandex")
+//                    .build();
             var chat = Chat.builder()
                     .name("yandex")
                     .build();
@@ -156,16 +194,16 @@ class HibernateRunnerTest {
              var session = sessionFactory.openSession()) {
             session.beginTransaction();
 
-            var user = User.builder()
-                    .username("oneToOne2")
-                    .build();
+//            var user = User.builder()
+//                    .username("oneToOne2")
+//                    .build();
             var profile = Profile.builder()
                     .language("en")
                     .street("50 let")
                     .build();
 
-            profile.setUser(user);
-            session.save(user);
+//            profile.setUser(user);
+//            session.save(user);
 //            var user1 = session.get(User.class, 4L);
             System.out.println("");
 
@@ -238,21 +276,22 @@ class HibernateRunnerTest {
         var company = Company.builder()
                 .name("vk")
                 .build();
-        var user = User.builder()
-                .username("22@vk.ru")
-                .build();
+//        var user = User.builder()
+//                .username("22@vk.ru")
+//                .build();
 //        var profile = Profile.builder()
 //                .street("22")
 //                .build();
 //        profile.setUser(user);
 
-        var user2 = User.builder()
-                .username("11@vk.ru")
-                .build();
+//        var user2 = User.builder()
+//                .username("11@vk.ru")
+//                .build();
 //        user.setCompany(company);
 //        company.getUsers().add(user);
-        company.addUser(user);
-        company.addUser(user2);
+
+//        company.addUser(user);
+//        company.addUser(user2);
         session.save(company);
 
 
@@ -274,8 +313,7 @@ class HibernateRunnerTest {
 
     @Test
     void checkReflectionApi() throws SQLException, IllegalAccessException {
-        User user = User.builder()
-                .build();
+        User user = null;
 
         String sql = "insert " +
                 "into " +

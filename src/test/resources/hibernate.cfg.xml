@@ -16,6 +16,8 @@
         <mapping class="com.ob11to.entity.Profile"/>
         <mapping class="com.ob11to.entity.Chat"/>
         <mapping class="com.ob11to.entity.UserChat"/>
+        <mapping class="com.ob11to.entity.Programmer"/>
+        <mapping class="com.ob11to.entity.Manager"/>
 
     </session-factory>
 </hibernate-configuration>

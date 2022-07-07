@@ -17,14 +17,15 @@ import java.util.Set;
 @AllArgsConstructor
 @ToString(exclude = {"company", "profile","userChats"})
 @EqualsAndHashCode(of = "username")
-@Builder
+//@Builder
 @Entity
 @Table(name = "users", schema = "public")
 @TypeDef(name = "json", typeClass = JsonBinaryType.class)
-public class User implements Comparable<User>, BaseEntity<Long>{
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+public abstract class User implements Comparable<User>, BaseEntity<Long>{
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @Embedded
@@ -48,7 +49,7 @@ public class User implements Comparable<User>, BaseEntity<Long>{
     private Profile profile;
 
     @OneToMany(mappedBy = "user")
-    @Builder.Default
+//    @Builder.Default
     private List<UserChat> userChats = new ArrayList<>();
 
     @Override

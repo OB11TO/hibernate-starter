@@ -20,15 +20,15 @@ public class HibernateRunner {
                 .name("Amazon")
                 .build();
 
-        User user = User.builder()
-                .username("o@ob11to.com")
-                .personalInfo(PersonalInfo.builder()
-                        .firstname("Berserk")
-                        .lastname("Berserk1")
-                        .birthDate(new Birthday(LocalDate.of(1000, 1, 1)))
-                        .build())
-                .build();
-        log.info("User entity is in transient state, object: {}", user);
+//        User user = User.builder()
+//                .username("o@ob11to.com")
+//                .personalInfo(PersonalInfo.builder()
+//                        .firstname("Berserk")
+//                        .lastname("Berserk1")
+//                        .birthDate(new Birthday(LocalDate.of(1000, 1, 1)))
+//                        .build())
+//                .build();
+//        log.info("User entity is in transient state, object: {}", user);
 
         try (SessionFactory sessionFactory = HibernateUtil.buildSessionFactory()) {
             Session session1 = sessionFactory.openSession();
@@ -43,7 +43,7 @@ public class HibernateRunner {
 
                 session1.getTransaction().commit();
             }
-            log.warn("User is in detached state: {}, session is closed {}", user, session1);
+//            log.warn("User is in detached state: {}, session is closed {}", user, session1);
         } catch (Exception exception) {
             log.error("Exception occurred", exception);
             throw exception;
