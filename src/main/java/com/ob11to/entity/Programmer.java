@@ -5,12 +5,14 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@DiscriminatorValue(value = "programmer")
 @Entity
 public class Programmer extends User {
 

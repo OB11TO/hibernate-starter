@@ -21,11 +21,11 @@ import java.util.Set;
 @Entity
 @Table(name = "users", schema = "public")
 @TypeDef(name = "json", typeClass = JsonBinaryType.class)
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public abstract class User implements Comparable<User>, BaseEntity<Long>{
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Embedded
