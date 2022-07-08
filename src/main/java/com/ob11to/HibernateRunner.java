@@ -17,7 +17,7 @@ public class HibernateRunner {
 
     public static void main(String[] args) {
         Company company = Company.builder()
-                .name("Amazon")
+                .name("test")
                 .build();
 
 //        User user = User.builder()
@@ -36,13 +36,20 @@ public class HibernateRunner {
                 var transaction = session1.beginTransaction();
                 log.trace("Transaction is created, {}", transaction);
 
-                var company1 = session1.get(Company.class, 4);
-                System.out.println(company1);
+//                var company1 = session1.get(Company.class, 4);
+//                System.out.println(company1);
                 System.out.println("");
-
+                session1.saveOrUpdate(company);
 
                 session1.getTransaction().commit();
             }
+            Session session2 = sessionFactory.openSession();
+            try(session2) {
+                session2.beginTransaction();
+                session2.delete(company);
+                session2.getTransaction().commit();
+            }
+
 //            log.warn("User is in detached state: {}, session is closed {}", user, session1);
         } catch (Exception exception) {
             log.error("Exception occurred", exception);

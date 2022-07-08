@@ -41,7 +41,7 @@ public abstract class User implements Comparable<User>, BaseEntity<Long>{
     @Type(type = "json")
     private String info;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType. LAZY)
     @JoinColumn(name = "company_id")
     private Company company;
 
