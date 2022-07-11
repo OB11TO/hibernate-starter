@@ -9,6 +9,7 @@ import com.ob11to.util.HibernateUtil;
 import lombok.Cleanup;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Field;
@@ -18,6 +19,7 @@ import java.sql.SQLException;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -25,7 +27,31 @@ import java.util.stream.Collectors;
 class HibernateRunnerTest {
 
     @Test
-    void checkTablePerClass(){
+    void checkHQL() {
+        try (var sessionFactory = HibernateTestUtil.buildSessionFactory();
+             var session = sessionFactory.openSession()) {
+            session.beginTransaction();
+
+            String name = "Ivan";
+//            var result = session.createQuery(
+//                            "select u from User u " +
+//                                    "where u.personalInfo.firstname = ?1 ", User.class)
+//                    .setParameter(1, name)
+//                    .list();
+            var result = session.createQuery("select u from User u " +
+                            "join u.company c " +
+                            "where u.personalInfo.firstname = :firstname and c.name = :name " +
+                            "order by u.personalInfo.lastname desc ", User.class)
+                    .setParameter("firstname", name)
+                    .setParameter("name", "Google")
+                    .list();
+
+            session.getTransaction().commit();
+        }
+    }
+
+    @Test
+    void checkTablePerClass() {
         try (var sessionFactory = HibernateTestUtil.buildSessionFactory();
              var session = sessionFactory.openSession()) {
             session.beginTransaction();
