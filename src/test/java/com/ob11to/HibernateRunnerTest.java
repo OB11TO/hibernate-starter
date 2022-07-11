@@ -1,6 +1,7 @@
 package com.ob11to;
 
 import javax.persistence.Column;
+import javax.persistence.FlushModeType;
 import javax.persistence.Table;
 
 import com.ob11to.entity.*;
@@ -9,6 +10,8 @@ import com.ob11to.util.HibernateUtil;
 import lombok.Cleanup;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.jpa.QueryHints;
+import org.hibernate.query.NativeQuery;
 import org.hibernate.query.Query;
 import org.junit.jupiter.api.Test;
 
@@ -44,7 +47,14 @@ class HibernateRunnerTest {
                             "order by u.personalInfo.lastname desc ", User.class)
                     .setParameter("firstname", name)
                     .setParameter("name", "Google")
+                    .setFlushMode(FlushModeType.AUTO)
+                    .setHint(QueryHints.HINT_FETCH_SIZE, "50")
                     .list();
+
+            var update = session.createQuery("update User u set u.role =  'ADMIN'")
+                    .executeUpdate();
+
+            var nativeQuery = session.createNativeQuery("select u.* from users u where u.firstname = 'Ivan'", User.class);
 
             session.getTransaction().commit();
         }
