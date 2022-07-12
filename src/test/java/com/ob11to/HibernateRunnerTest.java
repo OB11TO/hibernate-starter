@@ -65,25 +65,25 @@ class HibernateRunnerTest {
         try (var sessionFactory = HibernateTestUtil.buildSessionFactory();
              var session = sessionFactory.openSession()) {
             session.beginTransaction();
-
-            var yandex = Company.builder()
-                    .name("yandex")
-                    .build();
-            session.save(yandex);
-
-            var programmer = Programmer.builder()
-                    .username("ivan@gmail.com")
-                    .language(Language.JAVA)
-                    .company(yandex)
-                    .build();
-            session.save(programmer);
-
-            var manager = Manager.builder()
-                    .username("sveta@gmail.com")
-                    .projectName("Starter")
-                    .company(yandex)
-                    .build();
-            session.save(manager);
+//
+//            var yandex = Company.builder()
+//                    .name("yandex")
+//                    .build();
+//            session.save(yandex);
+//
+//            var programmer = Programmer.builder()
+//                    .username("ivan@gmail.com")
+//                    .language(Language.JAVA)
+//                    .company(yandex)
+//                    .build();
+//            session.save(programmer);
+//
+//            var manager = Manager.builder()
+//                    .username("sveta@gmail.com")
+//                    .projectName("Starter")
+//                    .company(yandex)
+//                    .build();
+//            session.save(manager);
 
             session.flush();
 

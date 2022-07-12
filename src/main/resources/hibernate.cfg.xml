@@ -19,6 +19,7 @@
         <mapping class="com.ob11to.entity.UserChat"/>
         <mapping class="com.ob11to.entity.Programmer"/>
         <mapping class="com.ob11to.entity.Manager"/>
+        <mapping class="com.ob11to.entity.Payment"/>
 
         <!-- DB schema will be updated if needed -->
         <!-- <property name="hibernate.hbm2ddl.auto">update</property> -->
