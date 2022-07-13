@@ -46,8 +46,8 @@ public class UserDao {
      * Возвращает всех сотрудников компании с указанным названием
      */
     public List<User> findAllByCompanyName(Session session, String companyName) {
-        return session.createQuery("select u from Company c " +
-                        "join c.users u " +
+        return session.createQuery("select u from User u " +
+                        "join u.company c " +
                         "where c.name = :companyName", User.class)
                 .setParameter("companyName", companyName)
                 .list();
