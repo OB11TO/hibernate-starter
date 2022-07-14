@@ -127,13 +127,13 @@ class UserDaoTest {
         @Cleanup Session session = sessionFactory.openSession();
         session.beginTransaction();
 
-        List<CompanyDto> results = userDao.findCompanyNamesWithAvgUserPaymentsOrderedByCompanyName(session);
+        List<Object[]> results = userDao.findCompanyNamesWithAvgUserPaymentsOrderedByCompanyName(session);
         assertThat(results).hasSize(3);
 
-        List<String> orgNames = results.stream().map(CompanyDto::getName).collect(toList());
+        List<String> orgNames = results.stream().map(m -> (String) m[0]).collect(toList());
         assertThat(orgNames).contains("Apple", "Google", "Microsoft");
 
-        List<Double> orgAvgPayments = results.stream().map(CompanyDto::getAmount).collect(toList());
+        List<Double> orgAvgPayments = results.stream().map(d -> (Double) d[1]).collect(toList());
         assertThat(orgAvgPayments).contains(410.0, 400.0, 300.0);
 
         session.getTransaction().commit();
