@@ -20,7 +20,6 @@ import java.util.*;
 @ToString(exclude = {"users", "locals"})
 @Builder
 @Entity
-@BatchSize(size = 3)
 public class Company {
 
     @Id

@@ -4,11 +4,11 @@ import com.ob11to.util.StringUtils;
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 import lombok.*;
 import net.bytebuddy.build.ToStringPlugin;
-import org.hibernate.annotations.BatchSize;
-import org.hibernate.annotations.Type;
-import org.hibernate.annotations.TypeDef;
+import org.hibernate.annotations.*;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -46,6 +46,7 @@ public class User implements Comparable<User>, BaseEntity<Long>{
 
     @ManyToOne(fetch = FetchType. LAZY)
     @JoinColumn(name = "company_id")
+    @Fetch(FetchMode.JOIN)
     private Company company;
 
 //    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
@@ -55,9 +56,10 @@ public class User implements Comparable<User>, BaseEntity<Long>{
     @Builder.Default
     private List<UserChat> userChats = new ArrayList<>();
 
-    @BatchSize(size = 3)
+
     @OneToMany(mappedBy = "receiver")
     @Builder.Default
+    @Fetch(FetchMode.SUBSELECT)
     private List<Payment> payments = new ArrayList<>();
 
     @Override
