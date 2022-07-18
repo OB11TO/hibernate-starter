@@ -4,6 +4,7 @@ import com.ob11to.util.StringUtils;
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 import lombok.*;
 import net.bytebuddy.build.ToStringPlugin;
+import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 
@@ -54,6 +55,7 @@ public class User implements Comparable<User>, BaseEntity<Long>{
     @Builder.Default
     private List<UserChat> userChats = new ArrayList<>();
 
+    @BatchSize(size = 3)
     @OneToMany(mappedBy = "receiver")
     @Builder.Default
     private List<Payment> payments = new ArrayList<>();
