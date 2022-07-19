@@ -16,7 +16,16 @@ import java.util.Set;
 
 import static com.ob11to.util.StringUtils.SPACE;
 
-
+@NamedEntityGraph(
+        name = "withCompanyAndUserChat",
+        attributeNodes = {
+                @NamedAttributeNode("company"),
+                @NamedAttributeNode(value = "userChats", subgraph = "chats")
+        },
+        subgraphs = {
+                @NamedSubgraph(name = "chats", attributeNodes = @NamedAttributeNode("chat"))
+        }
+)
 @FetchProfile(
         name = "withCompanyAndPayment", fetchOverrides = {
         @FetchProfile.FetchOverride(
@@ -25,8 +34,7 @@ import static com.ob11to.util.StringUtils.SPACE;
         @FetchProfile.FetchOverride(
                 entity = User.class, association = "payments", mode = FetchMode.JOIN
         )
-}
-)
+})
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
