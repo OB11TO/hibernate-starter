@@ -16,16 +16,27 @@ import java.util.Set;
 
 import static com.ob11to.util.StringUtils.SPACE;
 
+
+@FetchProfile(
+        name = "withCompanyAndPayment", fetchOverrides = {
+        @FetchProfile.FetchOverride(
+                entity = User.class, association = "company", mode = FetchMode.JOIN
+        ),
+        @FetchProfile.FetchOverride(
+                entity = User.class, association = "payments", mode = FetchMode.JOIN
+        )
+}
+)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(exclude = {"company", "profile","userChats", "payments"})
+@ToString(exclude = {"company", "profile", "userChats", "payments"})
 @EqualsAndHashCode(of = "username")
 @Builder
 @Entity
 @Table(name = "users", schema = "public")
 @TypeDef(name = "json", typeClass = JsonBinaryType.class)
-public class User implements Comparable<User>, BaseEntity<Long>{
+public class User implements Comparable<User>, BaseEntity<Long> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,7 +55,7 @@ public class User implements Comparable<User>, BaseEntity<Long>{
     @Type(type = "json")
     private String info;
 
-    @ManyToOne(fetch = FetchType. LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id")
     private Company company;
 
@@ -65,7 +76,7 @@ public class User implements Comparable<User>, BaseEntity<Long>{
         return username.compareTo(o.username);
     }
 
-    public String fullName(){
+    public String fullName() {
         return getPersonalInfo().getFirstname() + SPACE + getPersonalInfo().getLastname();
     }
 }
