@@ -46,7 +46,6 @@ public class User implements Comparable<User>, BaseEntity<Long>{
 
     @ManyToOne(fetch = FetchType. LAZY)
     @JoinColumn(name = "company_id")
-    @Fetch(FetchMode.JOIN)
     private Company company;
 
 //    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
@@ -59,7 +58,6 @@ public class User implements Comparable<User>, BaseEntity<Long>{
 
     @OneToMany(mappedBy = "receiver")
     @Builder.Default
-    @Fetch(FetchMode.SUBSELECT)
     private List<Payment> payments = new ArrayList<>();
 
     @Override
