@@ -2,6 +2,7 @@ package com.ob11to.util;
 
 import com.ob11to.converter.BirthdayConverter;
 import com.ob11to.entity.User;
+import com.ob11to.interceptor.GlobalInterceptor;
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 import lombok.experimental.UtilityClass;
 import org.hibernate.SessionFactory;
@@ -24,6 +25,7 @@ public class HibernateUtil {
         configuration.addAnnotatedClass(User.class);
         configuration.addAttributeConverter(new BirthdayConverter());
         configuration.registerTypeOverride(new JsonBinaryType());
+        configuration.setInterceptor(new GlobalInterceptor());
         return configuration;
     }
 }
