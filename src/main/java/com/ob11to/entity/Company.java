@@ -9,6 +9,8 @@ import lombok.ToString;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.SortComparator;
 import org.hibernate.annotations.SortNatural;
+import org.hibernate.envers.Audited;
+import org.hibernate.envers.NotAudited;
 
 import javax.persistence.*;
 import java.util.*;
@@ -20,6 +22,7 @@ import java.util.*;
 @ToString(exclude = {"users", "locals"})
 @Builder
 @Entity
+@Audited
 public class Company {
 
     @Id
@@ -32,6 +35,7 @@ public class Company {
     @ElementCollection
     @CollectionTable(name = "company_locale", joinColumns = @JoinColumn(name = "company_id"))
     @AttributeOverride(name = "language", column = @Column(name = "lang"))
+    @NotAudited
     private List<LocaleInfo> locals = new ArrayList<>();
 
     @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -39,6 +43,7 @@ public class Company {
 //    @OrderBy("username, personalInfo.lastname")
     @SortNatural
     @MapKey(name = "username")
+    @NotAudited
     private Map<String, User> users = new TreeMap<>();
 
     public void addUser(User user) {

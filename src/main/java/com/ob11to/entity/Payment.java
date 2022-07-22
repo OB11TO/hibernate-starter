@@ -8,6 +8,8 @@ import org.hibernate.annotations.Comment;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.OptimisticLockType;
 import org.hibernate.annotations.OptimisticLocking;
+import org.hibernate.envers.Audited;
+import org.hibernate.envers.NotAudited;
 
 import javax.persistence.*;
 
@@ -18,6 +20,7 @@ import javax.persistence.*;
 @Entity
 @OptimisticLocking(type = OptimisticLockType.ALL)
 @DynamicUpdate
+@Audited
 public class Payment implements BaseEntity<Long>{
 
     @Id
@@ -27,6 +30,7 @@ public class Payment implements BaseEntity<Long>{
     @Column(nullable = false)
     private Integer amount;
 
+    @NotAudited
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "receiver_id")
     private User receiver;
