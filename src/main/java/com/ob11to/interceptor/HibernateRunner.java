@@ -18,7 +18,7 @@ public class HibernateRunner {
                    .interceptor(new GlobalInterceptor())
                    .openSession()){
 
-           TestDataImporter.importData(sessionFactory);
+//           TestDataImporter.importData(sessionFactory);
            session.beginTransaction();
 
            var payment = session.find(Payment.class, 1L);
