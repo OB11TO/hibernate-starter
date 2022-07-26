@@ -1,6 +1,7 @@
 package com.ob11to.entity;
 
 import lombok.*;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import java.time.Instant;
@@ -12,6 +13,7 @@ import java.time.Instant;
 @Builder
 @Entity
 @Table(name = "user_chat")
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class UserChat extends AuditableEntity<Long>{
 
     @Id
