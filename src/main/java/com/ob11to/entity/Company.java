@@ -25,7 +25,7 @@ import java.util.*;
 @Entity
 //@Audited
 @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class Company {
+public class Company implements BaseEntity<Integer> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
