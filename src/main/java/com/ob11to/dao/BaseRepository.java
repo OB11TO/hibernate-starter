@@ -5,6 +5,7 @@ import com.ob11to.entity.Payment;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQuery;
 import lombok.Cleanup;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -19,6 +20,7 @@ import java.util.Optional;
 public abstract class BaseRepository<K extends Serializable, E extends BaseEntity<K>> implements Repository<K, E> {
 
     private final Class<E> clazz;
+    @Getter
     private final EntityManager entityManager;
 
     @Override
