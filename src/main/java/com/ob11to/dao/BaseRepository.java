@@ -2,11 +2,14 @@ package com.ob11to.dao;
 
 import com.ob11to.entity.BaseEntity;
 import com.ob11to.entity.Payment;
+import com.querydsl.jpa.JPQLQuery;
+import com.querydsl.jpa.impl.JPAQuery;
 import lombok.Cleanup;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
+import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaQuery;
 import java.io.Serializable;
 import java.util.List;
@@ -16,41 +19,36 @@ import java.util.Optional;
 public abstract class BaseRepository<K extends Serializable, E extends BaseEntity<K>> implements Repository<K, E> {
 
     private final Class<E> clazz;
-    private final SessionFactory sessionFactory;
+    private final EntityManager entityManager;
 
     @Override
     public E save(E entity) {
-        @Cleanup Session session = sessionFactory.openSession();
-        session.save(entity);
+        entityManager.persist(entity);
         return entity;
     }
 
     @Override
     public void delete(K id) {
-        @Cleanup Session session = sessionFactory.openSession();
-        session.delete(id);
-        session.flush(); // необязательно
+        entityManager.detach(id);
+        entityManager.flush(); // необязательно
     }
 
     @Override
     public void update(E entity) {
-        @Cleanup Session session = sessionFactory.openSession();
         //  session.update(entity);
-        session.merge(entity);
+        entityManager.merge(entity);
     }
 
     @Override
     public Optional<E> findById(K id) {
-        @Cleanup Session session = sessionFactory.openSession();
-        return Optional.ofNullable(session.find(clazz, id));
+        return Optional.ofNullable(entityManager.find(clazz, id));
     }
 
     @Override
     public List<E> findAll() {
-        @Cleanup Session session = sessionFactory.openSession();
-        var criteriaQuery = session.getCriteriaBuilder().createQuery(clazz);
+        var criteriaQuery = entityManager.getCriteriaBuilder().createQuery(clazz);
         criteriaQuery.from(clazz);
-        return session.createQuery(criteriaQuery)
+        return entityManager.createQuery(criteriaQuery)
                 .getResultList();
     }
 }
