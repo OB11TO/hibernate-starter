@@ -18,6 +18,12 @@ import java.util.Set;
 import static com.ob11to.util.StringUtils.SPACE;
 
 @NamedEntityGraph(
+        name = "withCompany",
+        attributeNodes = {
+                @NamedAttributeNode("company")
+        }
+)
+@NamedEntityGraph(
         name = "withCompanyAndUserChat",
         attributeNodes = {
                 @NamedAttributeNode("company"),

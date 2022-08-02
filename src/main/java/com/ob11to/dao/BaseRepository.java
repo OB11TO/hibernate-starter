@@ -14,6 +14,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaQuery;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -42,8 +43,8 @@ public abstract class BaseRepository<K extends Serializable, E extends BaseEntit
     }
 
     @Override
-    public Optional<E> findById(K id) {
-        return Optional.ofNullable(entityManager.find(clazz, id));
+    public Optional<E> findById(K id, Map<String, Object> properties) {
+        return Optional.ofNullable(entityManager.find(clazz, id, properties));
     }
 
     @Override

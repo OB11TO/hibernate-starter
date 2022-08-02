@@ -5,7 +5,9 @@ import com.ob11to.dto.UserReadDto;
 import com.ob11to.entity.User;
 import com.ob11to.mapper.UserReadMapper;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.graph.GraphSemantic;
 
+import java.util.Map;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -16,7 +18,10 @@ public class UserService {
 
 
     public Optional<UserReadDto> findById(Long id){
-        return userRepository.findById(id)
+        Map<String, Object> properties = Map.of(
+                GraphSemantic.LOAD.getJpaHintName(), userRepository.getEntityManager().getEntityGraph("withCompany")
+        );
+        return userRepository.findById(id, properties)
                 .map(userReadMapper::mapFrom);
     }
 
