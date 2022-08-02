@@ -1,9 +1,11 @@
 package com.ob11to.service;
 
 import com.ob11to.dao.UserRepository;
+import com.ob11to.dto.UserCreateDto;
 import com.ob11to.dto.UserReadDto;
 import com.ob11to.entity.User;
 import com.ob11to.mapper.Mapper;
+import com.ob11to.mapper.UserCreateMapper;
 import com.ob11to.mapper.UserReadMapper;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.graph.GraphSemantic;
@@ -16,6 +18,15 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final UserReadMapper userReadMapper;
+    private final UserCreateMapper userCreateMapper;
+
+    public Long create(UserCreateDto userDto){
+        //validation
+        //map
+        var user = userCreateMapper.mapFrom(userDto);
+        return userRepository.save(user).getId();
+    }
+
 
     public Optional<UserReadDto> findById(Long id){
         return findById(id, userReadMapper);

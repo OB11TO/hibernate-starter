@@ -1,6 +1,10 @@
 package com.ob11to.dao;
 
+import com.ob11to.dto.UserCreateDto;
+import com.ob11to.entity.PersonalInfo;
+import com.ob11to.entity.Role;
 import com.ob11to.mapper.CompanyReadMapper;
+import com.ob11to.mapper.UserCreateMapper;
 import com.ob11to.mapper.UserReadMapper;
 import com.ob11to.service.UserService;
 import com.ob11to.util.HibernateUtil;
@@ -10,6 +14,7 @@ import org.hibernate.SessionFactory;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+import java.time.LocalDate;
 
 public class HibernateRepositoryRunner {
 
@@ -25,9 +30,25 @@ public class HibernateRepositoryRunner {
             var companyReadMapper = new CompanyReadMapper();
             var userReadMapper = new UserReadMapper(companyReadMapper);
 
-            var userService = new UserService(userRepository, userReadMapper);
+            var companyRepository = new CompanyRepository(session);
+            var userCreateMapper = new UserCreateMapper(companyRepository);
+            var userService = new UserService(userRepository, userReadMapper, userCreateMapper);
 
             userService.findById(1L).ifPresent(System.out::println);
+
+            UserCreateDto userCreateDto = new UserCreateDto(
+                    PersonalInfo.builder()
+                            .firstname("Liza")
+                            .lastname("Liza")
+                            .birthDate(LocalDate.now())
+                            .build(),
+                    "liza@gmail.com",
+                    null,
+                    Role.USER,
+                    1
+            );
+            userService.create(userCreateDto);
+
 
 
             session.getTransaction().commit();
