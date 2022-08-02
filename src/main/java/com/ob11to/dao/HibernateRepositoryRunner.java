@@ -1,5 +1,8 @@
 package com.ob11to.dao;
 
+import com.ob11to.mapper.CompanyReadMapper;
+import com.ob11to.mapper.UserReadMapper;
+import com.ob11to.service.UserService;
 import com.ob11to.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -17,8 +20,15 @@ public class HibernateRepositoryRunner {
                     (proxy, method, args1) -> method.invoke(sessionFactory.getCurrentSession(), args1));
             session.beginTransaction();
 
-            var paymentRepository = new PaymentRepository(session);
-            paymentRepository.findById(1L).ifPresent(System.out::println);
+            var userRepository = new UserRepository(session);
+
+            var companyReadMapper = new CompanyReadMapper();
+            var userReadMapper = new UserReadMapper(companyReadMapper);
+
+            var userService = new UserService(userRepository, userReadMapper);
+
+            userService.findById(1L).ifPresent(System.out::println);
+
 
             session.getTransaction().commit();
         }
